@@ -1,0 +1,9 @@
+# https://caddyserver.com/docs/http-caddyfile
+
+*
+log stdout
+errors stdout
+root /var/www/
+push
+ext .html .htm .txt
+index index.html

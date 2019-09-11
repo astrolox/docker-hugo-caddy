@@ -1,0 +1,14 @@
+FROM alpine as hugo
+RUN apk add --no-cache ca-certificates curl wget git openssh py-pygments libc6-compat g++ 
+
+COPY scripts/get_latest_release.sh /bin/
+RUN set -eux; \
+	\
+	export VERSION=`get_latest_release.sh gohugoio/hugo`; \
+	export PACKAGE=hugo_extended_${VERSION}_Linux-64bit.tar.gz; \
+	curl -L https://github.com/gohugoio/hugo/releases/download/v${VERSION}/${PACKAGE} --output ${PACKAGE}; \
+	tar -x -zv -C /usr/bin/ -f ${PACKAGE}; \
+	rm ${PACKAGE}
+
+WORKDIR /tmp/
+CMD ["hugo"]

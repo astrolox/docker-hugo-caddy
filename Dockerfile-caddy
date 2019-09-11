@@ -1,0 +1,15 @@
+FROM abiosoft/caddy as official
+RUN true
+
+FROM busybox as caddy
+
+COPY --from=official /etc/ssl/certs /etc/ssl/certs
+COPY --from=official /usr/bin/caddy /bin/caddy
+
+COPY config/Caddyfile /etc/Caddyfile
+
+WORKDIR /var/www/
+
+EXPOSE 2015
+
+CMD ["caddy", "--conf", "/etc/Caddyfile", "--log", "stdout"]
