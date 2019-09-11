@@ -1,0 +1,21 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Push Hugo to Registry
+      uses: elgohr/Publish-Docker-Github-Action@1.11
+      with:
+        name: astrolox/hugo
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        dockerfile: Dockerfile-hugo
+    - name: Push Caddy to Registry
+      uses: elgohr/Publish-Docker-Github-Action@1.11
+      with:
+        name: astrolox/caddy
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        dockerfile: Dockerfile-caddy
